@@ -1,0 +1,112 @@
+import sqlite3
+
+# Connect to databse
+conn = sqlite3.connect("Inventory.db")
+
+# Create a cursor
+c = conn.cursor()
+
+# Create a table, [Dataypes: INTEGER (ALL NUMBERS), REAL (W/ DECIMALS), TEXT]
+c.execute("""CREATE TABLE IF NOT EXISTS Stock (
+        Item_Name TEXT,
+        Item_Quantity INTEGER,
+        Price REAL,
+        Weight REAL,
+        Replacement_Time INTEGER
+        )""")
+
+#Insert many records into the table
+many_Items = [('iPhone 12', '19', '£999', '0.250kg', '14 Days'),
+              ('iPhone 12 Pro', '7', '£1050', '0.300kg', '17 Days'),
+              ('Samsung S21', '17', '£850', '0.250kg', '12 Days'),
+              ('Samsng S21+', '21', '£999', '0.333kg', '16 Days'),
+              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days'),
+              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days')]
+
+# c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?)",many_Items)
+
+# Query the Database
+c.execute("SELECT * FROM Stock")
+
+print(c.fetchall())
+
+#How to View the inventory
+def Stock():
+    Stock = c.fetchall()
+    for Stock in Stock:
+        print(Stock[0], '\t\t\t\t', Stock[4])
+    return
+
+#Manager View of inventory#def ManView():
+    
+def ManView():   
+    Stock = c.fetchall()
+    for Stock in Stock:
+        print(Stock[0],'\t', Stock[1], '\t', Stock[2], '\t' ,Stock[3], '\t', Stock[4], '\t',Stock[5], '\t' ,Stock[6])
+    return
+        
+#How to Buy an Item
+
+def Buy():
+    input("Product Name:  ")
+
+#def Add():
+#    s = str(input("Input Name: "), 
+#    d = int(input("Input Stock: "),
+#    h = str(input("Input Price: "),
+#    j = str(input("Input Weight: "),
+#    k = str(input("Input Next Shipment: "),
+#    l = c.execute("INSERT INTO items VALUES ('s','d','f','g','h','j','k,')")
+
+#how to exit the system   
+ 
+def Non():
+    print("You have chosen to exit the system")
+    
+    
+#CREATING AN INTERFACE
+
+print("________________________\n________________________ \n\n1. View Stock \n\n2. Buy an Item \n\n3. Return an Item \n\n4. Add to Inventory \n\n5. Manager View \n\n6. Exit \n\n________________________\n________________________\n")
+choice = int(input("What do you want to do:  "))
+
+if choice >=7 or choice <=0 :
+    print("ERROR PICK A NUMBER STATED")
+
+
+if choice == 1 :
+    a = Stock()
+    
+if choice == 2 :
+    z = (input("Product Name: "))
+   #k = int(input("Number of items: "))
+    c.execute("SELECT * FROM Stock WHERE Item_Name = 'z'")
+    c.execute("UPDATE Stock SET Item_Quantity = Item_Quantity - 1")
+    
+if choice == 3 :
+    z = (input("Product Name: "))
+    c.execute("SELECT * FROM Stock WHERE Item_Name = 'z'")
+    c.execute("UPDATE Stock SET Item_Quantity = Item_Quantity + 1")
+    
+if choice == 4 :
+    m = input("Input The New Item Details: ")
+    v = m.split()
+    c.executemany("INSERT INTO Stock VALUES(?,?,?,?,?)", v)
+    
+    
+if choice == 5 :
+    Password = input("PASSWORD:  ")
+    if Password == 'Stock':
+        d = ManView()
+    else:
+        print("INCORRECT PASSWORD")
+    
+if choice == 6:
+    b = Non()
+
+# Commit our command
+conn.commit()
+
+c.close()
+
+# Close our connection
+conn.close()
