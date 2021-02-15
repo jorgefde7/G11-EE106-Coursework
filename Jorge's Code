@@ -12,18 +12,19 @@ c.execute("""CREATE TABLE IF NOT EXISTS Stock (
         Item_Quantity INTEGER,
         Price REAL,
         Weight REAL,
-        Replacement_Time INTEGER
+        Replacement_Time INTEGER,
+        Shelf TEXT
         )""")
 
 #Insert many records into the table
-many_Items = [('iPhone 12', '19', '£999', '0.250kg', '14 Days'),
-              ('iPhone 12 Pro', '7', '£1050', '0.300kg', '17 Days'),
-              ('Samsung S21', '17', '£850', '0.250kg', '12 Days'),
-              ('Samsng S21+', '21', '£999', '0.333kg', '16 Days'),
-              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days'),
-              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days')]
+many_Items = [('iPhone 12', '19', '£999', '0.250kg', '14 Days','1A'),
+              ('iPhone 12 Pro', '7', '£1050', '0.300kg', '17 Days','1B'),
+              ('Samsung S21', '17', '£850', '0.250kg', '12 Days','1C'),
+              ('Samsng S21+', '21', '£999', '0.333kg', '16 Days','2A'),
+              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days','2B'),
+              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days','2C')]
 
-# c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?)",many_Items)
+# c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?,?)",many_Items)
 
 # Query the Database
 c.execute("SELECT * FROM Stock")
@@ -90,7 +91,7 @@ if choice == 3 :
 if choice == 4 :
     m = input("Input The New Item Details: ")
     v = m.split()
-    c.executemany("INSERT INTO Stock VALUES(?,?,?,?,?)", v)
+    c.executemany("INSERT INTO Stock VALUES(?,?,?,?,?,?)", v)
     
     
 if choice == 5 :
