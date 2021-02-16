@@ -1,0 +1,123 @@
+import sqlite3
+
+# Connect to databse
+conn = sqlite3.connect("Inventory.db")
+
+# Create a cursor
+c = conn.cursor()
+
+# Create a table, [Dataypes: INTEGER (ALL NUMBERS), REAL (W/ DECIMALS), TEXT]
+
+c.execute("""CREATE TABLE IF NOT EXISTS Items (
+        Item_Name TEXT, 
+        Number_In_Stock INTEGER, 
+        Row TEXT, Shelf INTEGER, 
+        Price REAL, Weight REAL, 
+        Next_Shipment_Due TEXT
+        )""")
+
+#c.execute("""CREATE TABLE IF NOT EXISTS Stock (
+#        Item_Name TEXT,
+#        Item_Quantity INTEGER,
+#        Price REAL,
+#        Weight REAL,
+#        Replacement_Time INTEGER,
+#        Shelf TEXT
+#        )""")
+
+#Insert many records into the table
+
+many_Items = [('Phone','150','12A','4','£400','0.5kg','4 Days'),
+              ('Tablet','0','50B','3','£450','1kg','12 Weeks'),
+              ('Board Game','30','4B','3','£20','3.2kg','Never'),
+              ('Lamp','40','75B','4','£30','5kg','1 Day'),
+              ('Laptop','0','13A','3','£600','4.2kg','1 Week')]
+
+#many_Items = [('iPhone 12', '19', '£999', '0.250kg', '14 Days','1A'),
+#              ('iPhone 12 Pro', '7', '£1050', '0.300kg', '17 Days','1B'),
+#              ('Samsung S21', '17', '£850', '0.250kg', '12 Days','1C'),
+#              ('Samsng S21+', '21', '£999', '0.333kg', '16 Days','2A'),
+#              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days','2B'),
+#              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days','2C')]
+
+# c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?,?)",many_Items)
+
+# Query the Database
+c.execute("SELECT * FROM Items")
+
+print(c.fetchall())
+
+#How to View the inventory
+def Items():
+    Items = c.fetchall()
+    for Items in Items:
+        print(Items[0], '\t\t\t\t', Items[4])
+    return
+
+#Manager View of inventory
+    
+def ManView():   
+    Items = c.fetchall()
+    for Items in Items:
+        print(Items[0],'\t', Items[1], '\t', Items[2], '\t' ,Items[3], '\t', Items[4], '\t',Items[5], '\t' ,Items[6])
+    return
+        
+#How to Buy an Item
+
+def Buy():
+    input("Product Name:  ")
+
+#how to exit the system   
+ 
+def Non():
+    print("You have chosen to exit the system")
+    
+    
+#CREATING AN INTERFACE
+
+print("________________________\n________________________ \n\n1. View Items \n\n2. Buy an Item \n\n3. Return an Item \n\n4. Add to Inventory \n\n5. Manager View \n\n6. Exit \n\n________________________\n________________________\n")
+choice = int(input("What do you want to do:  "))
+
+if choice >=7 or choice <=0 :
+    print("ERROR PICK A NUMBER STATED")
+
+
+if choice == 1 :
+    items = c.fetchall()
+    for item in items:
+        print(item[0] + "\t" + item[1] + "\t" + item[2] + "\t" + item[3] + "\t" + item[4] + "\t" + item[5] + "\t" + item[6])
+    
+if choice == 2 :
+    z = (input("Product Name: "))
+   #k = int(input("Number of items: "))
+    c.execute("SELECT * FROM Items WHERE Item_Name = 'z'")
+    c.execute("UPDATE Items SET Item_Quantity = Item_Quantity - 1")
+    
+if choice == 3 :
+    z = (input("Product Name: "))
+    c.execute("SELECT * FROM Items WHERE Item_Name = 'z'")
+    c.execute("UPDATE Items SET Item_Quantity = Item_Quantity + 1")
+    
+if choice == 4 :
+    m = input("Input The New Item Details: ")
+    v = m.split()
+    c.executemany("INSERT INTO Items VALUES(?,?,?,?,?,?)", v)
+    
+    
+if choice == 5 :
+    Password = input("PASSWORD:  ")
+    if Password == 'Stock':
+        d = ManView()
+    else:
+        print("INCORRECT PASSWORD")
+    
+if choice == 6:
+    b = Non()
+
+# Commit our command
+conn.commit()
+
+c.close()
+
+# Close our connection
+conn.close()
