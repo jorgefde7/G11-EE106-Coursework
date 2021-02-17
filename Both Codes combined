@@ -11,19 +11,12 @@ c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS Items (
         Item_Name TEXT, 
         Number_In_Stock INTEGER, 
-        Row TEXT, Shelf INTEGER, 
-        Price REAL, Weight REAL, 
+        Row TEXT, 
+        Shelf INTEGER, 
+        Price REAL, 
+        Weight REAL, 
         Next_Shipment_Due TEXT
         )""")
-
-#c.execute("""CREATE TABLE IF NOT EXISTS Stock (
-#        Item_Name TEXT,
-#        Item_Quantity INTEGER,
-#        Price REAL,
-#        Weight REAL,
-#        Replacement_Time INTEGER,
-#        Shelf TEXT
-#        )""")
 
 #Insert many records into the table
 
