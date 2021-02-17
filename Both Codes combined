@@ -33,7 +33,7 @@ many_Items = [('Phone','150','12A','4','£400','0.5kg','4 Days'),
 #              ('Huawei P40 lite', '37', '£170', '0.220kg', '7 Days','2B'),
 #              ('Huawei P40 pro', '33', '£399', '0.270kg', '10 Days','2C')]
 
-# c.executemany("INSERT INTO Stock VALUES (?,?,?,?,?,?)",many_Items)
+# c.executemany("INSERT INTO Items VALUES (?,?,?,?,?,?,?)",many_Items)
 
 # Query the Database
 c.execute("SELECT * FROM Items")
@@ -67,45 +67,6 @@ def Non():
     
     
 #CREATING AN INTERFACE
-
-print("________________________\n________________________ \n\n1. View Items \n\n2. Buy an Item \n\n3. Return an Item \n\n4. Add to Inventory \n\n5. Manager View \n\n6. Exit \n\n________________________\n________________________\n")
-choice = int(input("What do you want to do:  "))
-
-if choice >=7 or choice <=0 :
-    print("ERROR PICK A NUMBER STATED")
-
-
-if choice == 1 :
-    items = c.fetchall()
-    for item in items:
-        print(item[0] + "\t" + item[1] + "\t" + item[2] + "\t" + item[3] + "\t" + item[4] + "\t" + item[5] + "\t" + item[6])
-    
-if choice == 2 :
-    z = (input("Product Name: "))
-   #k = int(input("Number of items: "))
-    c.execute("SELECT * FROM Items WHERE Item_Name = 'z'")
-    c.execute("UPDATE Items SET Item_Quantity = Item_Quantity - 1")
-    
-if choice == 3 :
-    z = (input("Product Name: "))
-    c.execute("SELECT * FROM Items WHERE Item_Name = 'z'")
-    c.execute("UPDATE Items SET Item_Quantity = Item_Quantity + 1")
-    
-if choice == 4 :
-    m = input("Input The New Item Details: ")
-    v = m.split()
-    c.executemany("INSERT INTO Items VALUES(?,?,?,?,?,?)", v)
-    
-    
-if choice == 5 :
-    Password = input("PASSWORD:  ")
-    if Password == 'Stock':
-        d = ManView()
-    else:
-        print("INCORRECT PASSWORD")
-    
-if choice == 6:
-    b = Non()
 
 # Commit our command
 conn.commit()
@@ -333,4 +294,3 @@ Label2.grid(row=0,column=2)
 Buy_button = tkinter.Button(root, text="Buy an Item",command=buy)
 Buy_button.grid(row=11,column=1)
 root.mainloop()
-
