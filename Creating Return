@@ -1,0 +1,236 @@
+import sqlite3
+import tkinter
+
+#creating the table
+#conn = sqlite3.connect('Inventory.db')
+#c = conn.cursor()
+#c.execute("INSERT INTO Items VALUES('Rubix Cube','40','15B','2','£10.99','0.3kg','1 Month')")
+#c.execute("DELETE FROM Items WHERE rowid = 8")
+#c.execute("SELECT * FROM Items")
+#print(c.fetchall())
+#conn.commit()
+#c.close()
+#conn.close()
+#defining the buy function
+def Staff():
+    def submit():
+        def view():
+            conn = sqlite3.connect('Inventory.db')
+            c = conn.cursor()
+            c.execute("SELECT * FROM Items")
+            print_name = ''
+            print_stock = ''
+            print_row =''
+            print_shelf = ''
+            print_price = ''
+            print_weight = ''
+            print_next_shipment = ''
+            #Buy = tkinter.Button(root, text="Buy this Item", command=buy).grid(row=1,column=3)
+            items = c.fetchall()
+            for item in items:
+                print_name += str(item[0]) + "\n"
+                print_stock +=str(item[1]) + "\n"
+                print_row +=str(item[2]) + "\n"
+                print_shelf +=str(item[3]) + "\n"
+                print_price += str(item[4]) + "\n"
+                print_weight +=str(item[5]) + "\n"
+                print_next_shipment +=str(item[6]) + "\n"
+                
+            Print_screen_name = tkinter.Label(root, text=print_name)
+            Print_screen_name.grid(row=5,column=5,rowspan=9)
+            Print_screen_stock = tkinter.Label(root, text=print_stock)   
+            Print_screen_stock.grid(row=5,column=6,rowspan=9)
+            Print_screen_row = tkinter.Label(root, text=print_row)
+            Print_screen_row.grid(row=5,column=7,rowspan=9)
+            Print_screen_shelf = tkinter.Label(root, text=print_shelf)   
+            Print_screen_shelf.grid(row=5,column=8,rowspan=9)
+            Print_screen_price = tkinter.Label(root, text=print_price)
+            Print_screen_price.grid(row=5,column=9,rowspan=9)
+            Print_screen_weight = tkinter.Label(root, text=print_weight)   
+            Print_screen_weight.grid(row=5,column=10,rowspan=9)
+            Print_screen_next_shipment = tkinter.Label(root, text=print_next_shipment)
+            Print_screen_next_shipment.grid(row=5,column=11,rowspan=9)
+            
+            label3 = tkinter.Label(root, text="Item Name")
+            label3.grid(row=4,column=5)
+            Label7 = tkinter.Label(root, text="Number in Stock")
+            Label7.grid(row=4,column=6)
+            Label8 = tkinter.Label(root, text="Row in Warehouse")
+            Label8.grid(row=4,column=7)
+            Label9 = tkinter.Label(root, text="Shelf Number")
+            Label9.grid(row=4,column=8)
+            label4 = tkinter.Label(root, text="Item Price")
+            label4.grid(row=4,column=9)
+            label5 = tkinter.Label(root,text="Item Weight")
+            label5.grid(row=4,column=10)
+            label6 = tkinter.Label(root, text="Next Shipment Due")
+            label6.grid(row=4,column=11)
+            conn.commit()
+            c.close()
+            conn.close()
+        def Submit():
+            def Add():
+                conn = sqlite3.connect('Inventory.db')
+                c = conn.cursor()
+                c.execute("INSERT INTO Items VALUES(:name,:stock,:row,:shelf,:price,:weight,:next_shipment)",
+                    { 
+                        'name': name.get(),
+                        'stock': stock.get(),
+                        'row': row.get(),
+                        'shelf': shelf.get(),
+                        'price': price.get(),
+                        'weight': weight.get(),
+                        'next_shipment': next_shipment.get()
+                    })
+                conn.commit()
+                c.close()
+                conn.close()
+                #removes from box so clear for next use
+                name.delete(0,'end')
+                stock.delete(0,'end')
+                row.delete(0,'end')
+                shelf.delete(0,'end')
+                price.delete(0,'end')
+                weight.delete(0,'end')
+                next_shipment.delete(0,'end') 
+    #inserting the values from the GUI into the SQlite database
+            name = tkinter.Entry(root, width=30)
+            name.grid(row=4,column=4)
+            stock = tkinter.Entry(root, width=30)
+            stock.grid(row=5,column=4)
+            row = tkinter.Entry(root, width=30)
+            row.grid(row=6,column=4)
+            shelf = tkinter.Entry(root, width=30)
+            shelf.grid(row=7,column=4)
+            price = tkinter.Entry(root, width=30)
+            price.grid(row=8,column=4)
+            weight = tkinter.Entry(root, width=30)
+            weight.grid(row=9,column=4)
+            next_shipment = tkinter.Entry(root, width=30)
+            next_shipment.grid(row=10,column=4)
+
+#Creating the labels for new stock
+            Label_name = tkinter.Label(root, text="Item Name", width=20)
+            Label_name.grid(row=4,column=3)
+            Label_stock = tkinter.Label(root, text="Number in stock", width=20)
+            Label_stock.grid(row=5,column=3)
+            Label_row = tkinter.Label(root, text="Row Number", width=20)
+            Label_row.grid(row=6,column=3)
+            Label_shelf = tkinter.Label(root, text="Shelf Number", width=20)
+            Label_shelf.grid(row=7,column=3)
+            Label_price = tkinter.Label(root, text="Item Price", width=20)
+            Label_price.grid(row=8,column=3)
+            Label_weight = tkinter.Label(root, text="Item Weight", width=20)
+            Label_weight.grid(row=9,column=3)
+            Label_next_shipment = tkinter.Label(root, text="Next Shipment Due", width=20)
+            Label_next_shipment.grid(row=10,column=3)
+            
+            Insert_Button = tkinter.Button(root, text="Add to Stock", command=Add)
+            Insert_Button.grid(row=11,column=3,columnspan=2,ipadx=100,pady=20)
+        
+        def Update():
+            return
+            
+        if Password.get() == 'Stock':
+            adding_button = tkinter.Button(root, text="Add New Stock", command=Submit)
+            adding_button.grid(row=3,column=4)
+            View_Inventory = tkinter.Button(root,text="View Inventory",command=view)
+            View_Inventory.grid(row=3,column=5)
+            Update_Inventory = tkinter.Button(root, text="Update current Stock",command=Update)
+            Update_Inventory.grid(row=12,column=4)
+        else: 
+            label2 = tkinter.Label(root, text="Incorrect Password")
+            label2.grid(row=2,column=4)
+        
+        
+        #creating the submit button
+            
+    Password = tkinter.Entry(root, width=20)
+    Password.grid(row=1,column=4)
+    Label_Password = tkinter.Label(root, text="PASSWORD")
+    Label_Password.grid(row=1,column=3)
+    Button_Password = tkinter.Button(root, text="Enter Password",command=submit) 
+    Button_Password.grid(row=2,column=3)
+    
+def buy():
+    def Buy():
+        Label6 = tkinter.Label(root, text="Succesful Purchase")
+        Label6.grid(row=14,column=1)
+        conn = sqlite3.connect('Inventory.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM Items WHERE Item_Name = :Enter_Item",{'Enter_Item': Enter_Item.get()})
+        c.execute("UPDATE Items SET Number_in_Stock = Number_in_Stock - 1 ")
+        print(c.fetchall())
+        conn.commit()
+        c.close()
+        conn.close()
+        Enter_Item.delete(0,'end')
+    Label5 = tkinter.Label(root, text="Purchase Which Item")
+    Label5.grid(row=12,column=0)
+    Enter_Item = tkinter.Entry(root, width = 20)
+    Enter_Item.grid(row=12,column=1)
+    Submit_button = tkinter.Button(root, text="Purchase",command=Buy)
+    Submit_button.grid(row=14,column=0)
+    Item_amount = tkinter.Entry(root,width=20)
+    Item_amount.grid(row=13,column=1)
+    Item_amount_label = tkinter.Label(root, text="Number of Items")
+    Item_amount_label.grid(row=13,column=0)
+    return
+#defining the return function
+def Return():
+    
+    
+    
+    
+    return
+
+
+#defining the view function
+def View():
+    conn = sqlite3.connect('Inventory.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM Items")
+    print_name = ''
+    print_price = ''
+    #Buy = tkinter.Button(root, text="Buy this Item", command=buy).grid(row=1,column=3)
+    items = c.fetchall()
+    for item in items:
+        print_name += str(item[0]) + "\n"
+        print_price += str(item[4]) + "\n"
+    Print_screen_name = tkinter.Label(root, text=print_name)
+    Print_screen_name.grid(row=2,column=0,rowspan=9)
+    Print_screen_price = tkinter.Label(root, text=print_price)   
+    Print_screen_price.grid(row=2,column=1,rowspan=9)
+    
+    label3 = tkinter.Label(root, text="Item Name")
+    label3.grid(row=1,column=0)
+    label4 = tkinter.Label(root, text="Item Price")
+    label4.grid(row=1,column=1)
+    conn.commit()
+    c.close()
+    conn.close()
+#add new function
+ 
+        
+root = tkinter.Tk()
+root.geometry("1300x600")
+
+Label1 = tkinter.Label(root, text=" ", width=20)
+Label1.grid(row=0,column=0)
+
+
+staff_only_button = tkinter.Button(root, text="Staff Options",command=Staff)
+staff_only_button.grid(row=0,column=3)
+#viewing all items
+Viewing_button = tkinter.Button(root, text="View All Items",command=View)
+Viewing_button.grid(row=0,column=1,pady=30)
+
+Label2 = tkinter.Label(root, text="", width=4)
+Label2.grid(row=0,column=2)
+
+Return_item = tkinter.Button(root, text="Return an Item",command=Return)
+Return_item.grid(row=15,column=1)
+
+Buy_button = tkinter.Button(root, text="Buy an Item",command=buy)
+Buy_button.grid(row=11,column=1)
+root.mainloop()
