@@ -176,14 +176,32 @@ def buy():
     Item_amount_label = tkinter.Label(root, text="Number of Items")
     Item_amount_label.grid(row=13,column=0)
     return
+    
 #defining the return function
 def Return():
-    
-    
-    
-    
+    def Return():
+        Label6 = tkinter.Label(root, text="Return Succesful")
+        Label6.grid(row=14,column=1)
+        conn = sqlite3.connect('Inventory.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM Items WHERE Item_Name = :Enter_Item",{'Enter_Item': Enter_Item.get()})
+        c.execute("UPDATE Items SET Number_in_Stock = Number_in_Stock + 1 ")
+        print(c.fetchall())
+        conn.commit()
+        c.close()
+        conn.close()
+        Enter_Item.delete(0,'end')
+    Label6 = tkinter.Label(root, text="Return Which Item")
+    Label6.grid(row=16,column=0)
+    Enter_Item = tkinter.Entry(root, width = 20)
+    Enter_Item.grid(row=16,column=1)
+    Submit_button1 = tkinter.Button(root, text="Return",command=Return)
+    Submit_button1.grid(row=18,column=0)
+    Item_amount1 = tkinter.Entry(root,width=20)
+    Item_amount1.grid(row=17,column=1)
+    Item_amount_label1 = tkinter.Label(root, text="Number of Items")
+    Item_amount_label1.grid(row=17,column=0)
     return
-
 
 #defining the view function
 def View():
