@@ -5,13 +5,14 @@ import tkinter
 #conn = sqlite3.connect('Inventory.db')
 #c = conn.cursor()
 #c.execute("CREATE TABLE IF NOT EXISTS Items (Item_Name TEXT, Number_In_Stock INTEGER, Row TEXT, Shelf INTEGER, Price REAL, Weight REAL, Next_Shipment_Due TEXT, Status NUMERIC)")
-#c.execute("INSERT INTO Items VALUES('Rubix Cube','40','15B','2','£10.99','0.3kg','1 Month')")
+#c.execute("INSERT INTO Items VALUES('Rubix Cube','40','15B','2','£10.99','0.3kg','1 Month','1')")
 #c.execute("DELETE FROM Items WHERE rowid = 8")
 #c.execute("SELECT * FROM Items")
 #print(c.fetchall())
 #conn.commit()
 #c.close()
 #conn.close()
+
 #defining the buy function
 def Staff():
     def submit():
@@ -258,6 +259,8 @@ def buy():
         c = conn.cursor()
         c.execute("UPDATE Items SET Number_in_Stock = Number_in_Stock - :Item_amount WHERE Item_Name =:Enter_Item AND Status = 'True' ",{'Enter_Item': Enter_Item.get(),'Item_amount':Item_amount.get()})
         print(c.fetchall())
+        Log = "Purchased {} {}".format(Enter_Item.get(), Item_amount.get())
+        print(Log)
         #if Status == 'True':
             #z = 'Purchase Successful'
         #else :
@@ -289,6 +292,8 @@ def Return():
         c = conn.cursor()
         c.execute("UPDATE Items SET Number_in_Stock = Number_in_Stock + :Item_amount1 WHERE Item_Name =:Enter_Item",{'Enter_Item': Enter_Item.get(),'Item_amount1':Item_amount1.get()})
         print(c.fetchall())
+        Log = "Returned {} {}".format(Enter_Item.get(), Item_amount1.get())
+        print(Log)
         conn.commit()
         c.close()
         conn.close()
